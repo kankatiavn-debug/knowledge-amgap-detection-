@@ -1,0 +1,3351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CausaLearn | Smart Exam Readiness</title>
+
+<style>
+/* =========================
+   ROOT
+========================= */
+:root{
+    --bg:#f7f8fc;
+    --card:#ffffff;
+    --text:#171923;
+    --muted:#70758a;
+    --border:#e7e9f1;
+    --primary:#5b5ce2;
+    --primary-dark:#4849c8;
+    --purple:#7c3aed;
+    --blue:#2563eb;
+    --green:#16a34a;
+    --orange:#f59e0b;
+    --red:#ef4444;
+    --shadow:0 8px 30px rgba(25,30,60,.07);
+    --radius:18px;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+}
+
+button,input{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+    border:0;
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header{
+    height:72px;
+    background:rgba(255,255,255,.94);
+    backdrop-filter:blur(15px);
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    padding:0 30px;
+    gap:25px;
+    position:sticky;
+    top:0;
+    z-index:100;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    min-width:190px;
+}
+
+.logo-icon{
+    width:40px;
+    height:40px;
+    border-radius:12px;
+    background:linear-gradient(135deg,#5b5ce2,#8b5cf6);
+    color:white;
+    display:grid;
+    place-items:center;
+    font-weight:800;
+    font-size:18px;
+    box-shadow:0 8px 20px rgba(91,92,226,.25);
+}
+
+.logo-text{
+    font-size:19px;
+    font-weight:800;
+    letter-spacing:-.5px;
+}
+
+.logo-text span{
+    color:var(--primary);
+}
+
+.nav-tabs{
+    display:flex;
+    align-items:center;
+    gap:4px;
+    flex:1;
+}
+
+.nav-tab{
+    padding:10px 13px;
+    border-radius:10px;
+    background:transparent;
+    color:#656a7c;
+    font-size:13px;
+    font-weight:600;
+    transition:.2s;
+    white-space:nowrap;
+}
+
+.nav-tab:hover{
+    background:#f0f1f8;
+    color:var(--text);
+}
+
+.nav-tab.active{
+    background:#ececff;
+    color:var(--primary);
+}
+
+.header-actions{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.search-box{
+    width:210px;
+    height:40px;
+    border:1px solid var(--border);
+    border-radius:12px;
+    background:#fafbfe;
+    display:flex;
+    align-items:center;
+    padding:0 12px;
+    gap:8px;
+}
+
+.search-box span{
+    color:#9a9eae;
+}
+
+.search-box input{
+    border:0;
+    outline:0;
+    background:transparent;
+    width:100%;
+    font-size:13px;
+}
+
+.icon-btn{
+    width:40px;
+    height:40px;
+    border-radius:12px;
+    background:#f4f5fa;
+    color:#666b7c;
+    display:grid;
+    place-items:center;
+    font-size:17px;
+}
+
+.icon-btn:hover{
+    background:#e9eafa;
+    color:var(--primary);
+}
+
+.profile{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#5b5ce2,#9b5de5);
+    color:white;
+    display:grid;
+    place-items:center;
+    font-weight:800;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main{
+    max-width:1500px;
+    margin:auto;
+    padding:32px;
+}
+
+.page{
+    display:none;
+    animation:fadeIn .25s ease;
+}
+
+.page.active{
+    display:block;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(5px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* =========================
+   PAGE HEADER
+========================= */
+
+.page-heading{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    margin-bottom:25px;
+}
+
+.page-heading h1{
+    font-size:29px;
+    letter-spacing:-1px;
+}
+
+.page-heading p{
+    color:var(--muted);
+    margin-top:6px;
+    font-size:14px;
+}
+
+.primary-btn{
+    padding:11px 17px;
+    background:var(--primary);
+    color:white;
+    border-radius:11px;
+    font-weight:700;
+    font-size:13px;
+    box-shadow:0 7px 20px rgba(91,92,226,.2);
+}
+
+.primary-btn:hover{
+    background:var(--primary-dark);
+}
+
+.secondary-btn{
+    padding:11px 17px;
+    background:white;
+    color:#555a6d;
+    border:1px solid var(--border);
+    border-radius:11px;
+    font-weight:700;
+    font-size:13px;
+}
+
+.secondary-btn:hover{
+    border-color:#c8caf0;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    background:
+      radial-gradient(circle at 85% 20%,rgba(124,58,237,.18),transparent 30%),
+      linear-gradient(135deg,#15183a,#252a66);
+    border-radius:24px;
+    padding:32px;
+    color:white;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    overflow:hidden;
+    position:relative;
+    margin-bottom:22px;
+}
+
+.hero:after{
+    content:"";
+    position:absolute;
+    width:300px;
+    height:300px;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:50%;
+    right:-100px;
+    top:-130px;
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+}
+
+.hero-label{
+    display:inline-flex;
+    padding:6px 10px;
+    border-radius:20px;
+    background:rgba(255,255,255,.1);
+    font-size:11px;
+    font-weight:700;
+    margin-bottom:13px;
+}
+
+.hero h2{
+    font-size:28px;
+    max-width:650px;
+    line-height:1.25;
+    letter-spacing:-.7px;
+}
+
+.hero p{
+    margin-top:10px;
+    color:#c9ccef;
+    font-size:14px;
+    max-width:620px;
+    line-height:1.6;
+}
+
+.hero-buttons{
+    display:flex;
+    gap:10px;
+    margin-top:20px;
+}
+
+.hero .primary-btn{
+    background:white;
+    color:#37389e;
+}
+
+.hero .secondary-btn{
+    background:rgba(255,255,255,.08);
+    border-color:rgba(255,255,255,.15);
+    color:white;
+}
+
+/* =========================
+   GRID
+========================= */
+
+.grid{
+    display:grid;
+    gap:18px;
+}
+
+.stats-grid{
+    grid-template-columns:repeat(4,1fr);
+    margin-bottom:20px;
+}
+
+.two-grid{
+    grid-template-columns:1.35fr .65fr;
+}
+
+.three-grid{
+    grid-template-columns:repeat(3,1fr);
+}
+
+.card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:21px;
+    box-shadow:var(--shadow);
+}
+
+.stat-card{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+}
+
+.stat-icon{
+    width:42px;
+    height:42px;
+    border-radius:12px;
+    display:grid;
+    place-items:center;
+    font-size:19px;
+    background:#eeeeff;
+}
+
+.stat-number{
+    font-size:28px;
+    font-weight:800;
+    margin-top:15px;
+}
+
+.stat-title{
+    font-size:12px;
+    color:var(--muted);
+    margin-top:3px;
+}
+
+.stat-change{
+    font-size:11px;
+    font-weight:700;
+    margin-top:12px;
+    color:var(--green);
+}
+
+/* =========================
+   CARD HEAD
+========================= */
+
+.card-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:18px;
+}
+
+.card-head h3{
+    font-size:16px;
+}
+
+.card-head span{
+    color:var(--muted);
+    font-size:12px;
+}
+
+/* =========================
+   CHART
+========================= */
+
+.chart{
+    height:230px;
+    position:relative;
+}
+
+.chart svg{
+    width:100%;
+    height:100%;
+}
+
+.chart-labels{
+    display:flex;
+    justify-content:space-between;
+    color:#9296a7;
+    font-size:10px;
+    margin-top:-2px;
+}
+
+/* =========================
+   READINESS
+========================= */
+
+.readiness{
+    display:flex;
+    align-items:center;
+    gap:25px;
+}
+
+.progress-ring{
+    width:145px;
+    height:145px;
+    border-radius:50%;
+    background:conic-gradient(
+        var(--primary) 0deg 284deg,
+        #eceef5 284deg 360deg
+    );
+    display:grid;
+    place-items:center;
+    position:relative;
+    flex-shrink:0;
+}
+
+.progress-ring:after{
+    content:"";
+    position:absolute;
+    width:108px;
+    height:108px;
+    background:white;
+    border-radius:50%;
+}
+
+.progress-value{
+    position:relative;
+    z-index:2;
+    text-align:center;
+}
+
+.progress-value strong{
+    display:block;
+    font-size:26px;
+}
+
+.progress-value span{
+    font-size:10px;
+    color:var(--muted);
+}
+
+.readiness-info h4{
+    font-size:16px;
+}
+
+.readiness-info p{
+    color:var(--muted);
+    font-size:12px;
+    line-height:1.6;
+    margin-top:7px;
+}
+
+.mini-progress{
+    height:7px;
+    background:#edf0f5;
+    border-radius:20px;
+    overflow:hidden;
+    margin-top:14px;
+}
+
+.mini-progress span{
+    display:block;
+    height:100%;
+    border-radius:20px;
+    background:var(--primary);
+}
+
+/* =========================
+   GAP ITEMS
+========================= */
+
+.gap-list{
+    display:flex;
+    flex-direction:column;
+    gap:13px;
+}
+
+.gap-item{
+    border:1px solid var(--border);
+    border-radius:13px;
+    padding:14px;
+}
+
+.gap-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.gap-name{
+    font-size:13px;
+    font-weight:700;
+}
+
+.badge{
+    font-size:10px;
+    padding:5px 8px;
+    border-radius:20px;
+    font-weight:700;
+}
+
+.badge-red{
+    color:#c52222;
+    background:#fff0f0;
+}
+
+.badge-orange{
+    color:#ad6900;
+    background:#fff6df;
+}
+
+.badge-green{
+    color:#16733b;
+    background:#eaf9ef;
+}
+
+.gap-score{
+    font-size:11px;
+    color:var(--muted);
+    margin-top:8px;
+}
+
+/* =========================
+   CAUSAL CARD
+========================= */
+
+.causal-box{
+    background:linear-gradient(135deg,#f4f2ff,#faf8ff);
+    border:1px solid #e4ddff;
+}
+
+.causal-chain{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    flex-wrap:wrap;
+    margin:20px 0;
+}
+
+.node{
+    padding:10px 13px;
+    border-radius:10px;
+    background:white;
+    border:1px solid #ddd7ff;
+    font-size:11px;
+    font-weight:700;
+}
+
+.arrow{
+    color:#8b83c9;
+    font-weight:bold;
+}
+
+.insight{
+    padding:13px;
+    border-radius:12px;
+    background:white;
+    border:1px solid #e6e1ff;
+    font-size:12px;
+    line-height:1.6;
+    color:#56596d;
+}
+
+/* =========================
+   RECOMMENDATION
+========================= */
+
+.recommendation{
+    display:flex;
+    gap:14px;
+    padding:15px 0;
+    border-bottom:1px solid var(--border);
+}
+
+.recommendation:last-child{
+    border-bottom:0;
+}
+
+.rec-number{
+    width:34px;
+    height:34px;
+    border-radius:10px;
+    background:#efefff;
+    color:var(--primary);
+    display:grid;
+    place-items:center;
+    font-weight:800;
+    font-size:12px;
+    flex-shrink:0;
+}
+
+.rec-content{
+    flex:1;
+}
+
+.rec-content h4{
+    font-size:13px;
+}
+
+.rec-content p{
+    font-size:11px;
+    color:var(--muted);
+    line-height:1.5;
+    margin-top:4px;
+}
+
+.rec-time{
+    font-size:10px;
+    color:var(--primary);
+    font-weight:700;
+}
+
+/* =========================
+   QUIZ PAGE
+========================= */
+
+.quiz-card{
+    transition:.2s;
+}
+
+.quiz-card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 15px 35px rgba(30,35,70,.1);
+}
+
+.quiz-icon{
+    width:48px;
+    height:48px;
+    border-radius:14px;
+    background:#f0f0ff;
+    display:grid;
+    place-items:center;
+    font-size:21px;
+    margin-bottom:15px;
+}
+
+.quiz-card h3{
+    font-size:16px;
+}
+
+.quiz-card p{
+    color:var(--muted);
+    font-size:12px;
+    margin:7px 0 16px;
+    line-height:1.5;
+}
+
+.quiz-meta{
+    display:flex;
+    justify-content:space-between;
+    font-size:10px;
+    color:#85899a;
+    margin-bottom:15px;
+}
+
+/* =========================
+   TABLE
+========================= */
+
+.table-wrap{
+    overflow:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:700px;
+}
+
+th{
+    text-align:left;
+    padding:13px;
+    color:#818597;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+    border-bottom:1px solid var(--border);
+}
+
+td{
+    padding:15px 13px;
+    border-bottom:1px solid #f0f1f5;
+    font-size:12px;
+}
+
+td strong{
+    font-size:12px;
+}
+
+/* =========================
+   CAUSAL ANALYSIS
+========================= */
+
+.analysis-layout{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+.cause-map{
+    min-height:420px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+}
+
+.cause-node{
+    padding:15px 22px;
+    border-radius:14px;
+    background:white;
+    border:1px solid var(--border);
+    box-shadow:0 7px 20px rgba(20,25,60,.05);
+    font-size:12px;
+    font-weight:700;
+    text-align:center;
+}
+
+.cause-node.main{
+    background:#eeefff;
+    border-color:#d6d6ff;
+    color:#4446ba;
+}
+
+.cause-arrow{
+    color:#999dad;
+    font-size:18px;
+}
+
+/* =========================
+   STUDY PLAN
+========================= */
+
+.timeline{
+    position:relative;
+    padding-left:30px;
+}
+
+.timeline:before{
+    content:"";
+    position:absolute;
+    left:9px;
+    top:5px;
+    bottom:5px;
+    width:2px;
+    background:#e3e5ef;
+}
+
+.timeline-item{
+    position:relative;
+    margin-bottom:25px;
+}
+
+.timeline-dot{
+    position:absolute;
+    left:-27px;
+    top:2px;
+    width:12px;
+    height:12px;
+    border-radius:50%;
+    background:var(--primary);
+    border:3px solid #eeeeff;
+}
+
+.timeline-item h4{
+    font-size:13px;
+}
+
+.timeline-item p{
+    color:var(--muted);
+    font-size:11px;
+    margin-top:4px;
+}
+
+.check-list{
+    display:flex;
+    flex-direction:column;
+    gap:11px;
+}
+
+.check-item{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:12px;
+    border-radius:11px;
+    background:#fafbfe;
+    border:1px solid var(--border);
+}
+
+.check-item input{
+    accent-color:var(--primary);
+}
+
+.check-item span{
+    font-size:12px;
+}
+
+/* =========================
+   PROFILE
+========================= */
+
+.profile-header{
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.big-avatar{
+    width:75px;
+    height:75px;
+    border-radius:22px;
+    background:linear-gradient(135deg,#5b5ce2,#a855f7);
+    color:white;
+    display:grid;
+    place-items:center;
+    font-size:25px;
+    font-weight:800;
+}
+
+.profile-header h2{
+    font-size:21px;
+}
+
+.profile-header p{
+    color:var(--muted);
+    font-size:12px;
+    margin-top:4px;
+}
+
+.setting{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:16px 0;
+    border-bottom:1px solid var(--border);
+}
+
+.setting:last-child{
+    border-bottom:0;
+}
+
+.setting h4{
+    font-size:13px;
+}
+
+.setting p{
+    font-size:11px;
+    color:var(--muted);
+    margin-top:3px;
+}
+
+/* toggle */
+.toggle{
+    width:42px;
+    height:23px;
+    border-radius:20px;
+    background:#dfe2ea;
+    position:relative;
+}
+
+.toggle:after{
+    content:"";
+    width:17px;
+    height:17px;
+    border-radius:50%;
+    background:white;
+    position:absolute;
+    top:3px;
+    left:3px;
+    transition:.2s;
+}
+
+.toggle.on{
+    background:var(--primary);
+}
+
+.toggle.on:after{
+    left:22px;
+}
+
+/* =========================
+   DROPDOWN
+========================= */
+
+.dropdown{
+    position:fixed;
+    top:65px;
+    right:30px;
+    width:280px;
+    background:white;
+    border:1px solid var(--border);
+    border-radius:15px;
+    box-shadow:0 20px 50px rgba(20,25,50,.15);
+    padding:12px;
+    display:none;
+    z-index:200;
+}
+
+.dropdown.show{
+    display:block;
+}
+
+.notification{
+    padding:12px;
+    border-bottom:1px solid var(--border);
+}
+
+.notification:last-child{
+    border-bottom:0;
+}
+
+.notification strong{
+    font-size:12px;
+}
+
+.notification p{
+    font-size:11px;
+    color:var(--muted);
+    margin-top:3px;
+}
+
+/* =========================
+   MODAL
+========================= */
+
+.modal-bg{
+    position:fixed;
+    inset:0;
+    background:rgba(12,15,35,.6);
+    backdrop-filter:blur(5px);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:500;
+    padding:20px;
+}
+
+.modal-bg.show{
+    display:flex;
+}
+
+.modal{
+    width:620px;
+    max-width:100%;
+    background:white;
+    border-radius:22px;
+    padding:25px;
+    box-shadow:0 30px 80px rgba(0,0,0,.25);
+}
+
+.modal-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.close-btn{
+    width:35px;
+    height:35px;
+    border-radius:10px;
+    background:#f1f2f6;
+}
+
+.question-number{
+    color:var(--primary);
+    font-size:11px;
+    font-weight:800;
+}
+
+.question{
+    font-size:18px;
+    line-height:1.5;
+    margin:12px 0 20px;
+}
+
+.options{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.option{
+    padding:14px;
+    border:1px solid var(--border);
+    border-radius:12px;
+    text-align:left;
+    background:white;
+    font-size:13px;
+}
+
+.option:hover{
+    border-color:#aaaaf0;
+    background:#f8f8ff;
+}
+
+.option.selected{
+    border-color:var(--primary);
+    background:#eeeeff;
+}
+
+.quiz-footer{
+    margin-top:22px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+/* =========================
+   TOAST
+========================= */
+
+.toast{
+    position:fixed;
+    bottom:25px;
+    right:25px;
+    background:#171923;
+    color:white;
+    padding:13px 17px;
+    border-radius:12px;
+    font-size:12px;
+    box-shadow:0 15px 40px rgba(0,0,0,.2);
+    transform:translateY(100px);
+    opacity:0;
+    transition:.3s;
+    z-index:1000;
+}
+
+.toast.show{
+    transform:translateY(0);
+    opacity:1;
+}
+
+/* =========================
+   DARK MODE
+========================= */
+
+body.dark{
+    --bg:#10121c;
+    --card:#181b28;
+    --text:#f2f3f8;
+    --muted:#969bad;
+    --border:#292d3c;
+    --shadow:0 8px 30px rgba(0,0,0,.18);
+}
+
+body.dark .header,
+body.dark .search-box,
+body.dark .secondary-btn,
+body.dark .option,
+body.dark .modal,
+body.dark .dropdown{
+    background:#181b28;
+    color:var(--text);
+}
+
+body.dark .nav-tab:hover{
+    background:#242838;
+}
+
+body.dark .icon-btn,
+body.dark .check-item{
+    background:#222636;
+}
+
+body.dark .progress-ring:after{
+    background:#181b28;
+}
+
+body.dark .node,
+body.dark .cause-node{
+    background:#1d2130;
+}
+
+body.dark .insight{
+    background:#1b1e2c;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:1200px){
+    .nav-tabs{
+        overflow-x:auto;
+    }
+
+    .search-box{
+        width:160px;
+    }
+
+    .stats-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:900px){
+    .header{
+        padding:0 15px;
+        gap:12px;
+    }
+
+    .logo{
+        min-width:auto;
+    }
+
+    .logo-text{
+        display:none;
+    }
+
+    .header-actions{
+        margin-left:auto;
+    }
+
+    .search-box{
+        display:none;
+    }
+
+    .main{
+        padding:20px;
+    }
+
+    .two-grid,
+    .analysis-layout{
+        grid-template-columns:1fr;
+    }
+
+    .three-grid{
+        grid-template-columns:1fr 1fr;
+    }
+}
+
+@media(max-width:650px){
+    .header{
+        height:auto;
+        padding:12px;
+        flex-wrap:wrap;
+    }
+
+    .nav-tabs{
+        order:3;
+        flex-basis:100%;
+        overflow-x:auto;
+    }
+
+    .nav-tab{
+        font-size:11px;
+        padding:8px 10px;
+    }
+
+    .stats-grid,
+    .three-grid{
+        grid-template-columns:1fr;
+    }
+
+    .hero{
+        padding:24px;
+    }
+
+    .hero h2{
+        font-size:22px;
+    }
+
+    .page-heading{
+        align-items:flex-start;
+        gap:15px;
+        flex-direction:column;
+    }
+
+    .readiness{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .progress-ring{
+        align-self:center;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header class="header">
+
+    <div class="logo">
+        <div class="logo-icon">CL</div>
+        <div class="logo-text">Causa<span>Learn</span></div>
+    </div>
+
+    <nav class="nav-tabs">
+
+        <button class="nav-tab active" data-page="overview">
+            Overview
+        </button>
+
+        <button class="nav-tab" data-page="quiz">
+            Quiz Center
+        </button>
+
+        <button class="nav-tab" data-page="gaps">
+            Knowledge Gaps
+        </button>
+
+        <button class="nav-tab" data-page="causal">
+            Causal Analysis
+        </button>
+
+        <button class="nav-tab" data-page="recommendations">
+            Recommendations
+        </button>
+
+        <button class="nav-tab" data-page="study">
+            Study Plan
+        </button>
+
+    </nav>
+
+    <div class="header-actions">
+
+        <div class="search-box">
+            <span>⌕</span>
+            <input id="searchInput" type="text" placeholder="Search...">
+        </div>
+
+        <button class="icon-btn" id="themeBtn" title="Toggle theme">
+            ◐
+        </button>
+
+        <button class="icon-btn" id="notificationBtn">
+            ♢
+        </button>
+
+        <button class="profile" id="profileBtn">
+            P
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- NOTIFICATION DROPDOWN -->
+
+<div class="dropdown" id="notificationDropdown">
+
+    <div class="notification">
+        <strong>New knowledge gap detected</strong>
+        <p>Conditional Probability needs attention.</p>
+    </div>
+
+    <div class="notification">
+        <strong>Study reminder</strong>
+        <p>Complete today's 20-minute practice.</p>
+    </div>
+
+    <div class="notification">
+        <strong>Quiz improvement</strong>
+        <p>Your Statistics score increased by 12%.</p>
+    </div>
+
+</div>
+
+
+<!-- PROFILE DROPDOWN -->
+
+<div class="dropdown" id="profileDropdown">
+
+    <div style="padding:12px;border-bottom:1px solid var(--border);">
+        <strong>Student Profile</strong>
+        <p style="font-size:11px;color:var(--muted);margin-top:4px;">
+            CausaLearn Demo Account
+        </p>
+    </div>
+
+    <button
+        style="width:100%;padding:12px;text-align:left;background:none;"
+        onclick="navigate('profile');closeDropdowns();">
+        ⚙ Profile & Settings
+    </button>
+
+    <button
+        style="width:100%;padding:12px;text-align:left;background:none;"
+        onclick="showToast('Signed out from demo account');">
+        ↪ Sign out
+    </button>
+
+</div>
+
+
+<main class="main">
+
+<!-- =====================================================
+     OVERVIEW
+===================================================== -->
+
+<section class="page active" id="overview">
+
+    <div class="hero">
+
+        <div class="hero-content">
+
+            <div class="hero-label">
+                ✦ AI-ASSISTED LEARNING
+            </div>
+
+            <h2>
+                Understand the cause behind your knowledge gaps.
+            </h2>
+
+            <p>
+                CausaLearn analyzes your past quiz performance and
+                identifies likely root causes instead of simply
+                labeling every low score as a weak topic.
+            </p>
+
+            <div class="hero-buttons">
+
+                <button class="primary-btn"
+                        onclick="runAnalysis()">
+                    Run Causal Analysis
+                </button>
+
+                <button class="secondary-btn"
+                        onclick="navigate('study')">
+                    View Study Plan
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- STATS -->
+
+    <div class="grid stats-grid">
+
+        <div class="card stat-card">
+            <div>
+                <div class="stat-icon">◎</div>
+                <div class="stat-number">74%</div>
+                <div class="stat-title">Learning Readiness</div>
+                <div class="stat-change">↑ 8.4% this week</div>
+            </div>
+        </div>
+
+        <div class="card stat-card">
+            <div>
+                <div class="stat-icon">◈</div>
+                <div class="stat-number">12</div>
+                <div class="stat-title">Quizzes Completed</div>
+                <div class="stat-change">↑ 3 this week</div>
+            </div>
+        </div>
+
+        <div class="card stat-card">
+            <div>
+                <div class="stat-icon">◇</div>
+                <div class="stat-number">5</div>
+                <div class="stat-title">Knowledge Gaps</div>
+                <div class="stat-change" style="color:var(--orange)">
+                    2 high priority
+                </div>
+            </div>
+        </div>
+
+        <div class="card stat-card">
+            <div>
+                <div class="stat-icon">↗</div>
+                <div class="stat-number">82%</div>
+                <div class="stat-title">Average Score</div>
+                <div class="stat-change">↑ 6.2% this month</div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- CHART + READINESS -->
+
+    <div class="grid two-grid">
+
+        <div class="card">
+
+            <div class="card-head">
+                <h3>Performance Trend</h3>
+                <span>Last 8 quizzes</span>
+            </div>
+
+            <div class="chart">
+
+                <svg viewBox="0 0 800 230"
+                     preserveAspectRatio="none">
+
+                    <!-- grid -->
+                    <line x1="0" y1="40"
+                          x2="800" y2="40"
+                          stroke="#eceef4"/>
+
+                    <line x1="0" y1="95"
+                          x2="800" y2="95"
+                          stroke="#eceef4"/>
+
+                    <line x1="0" y1="150"
+                          x2="800" y2="150"
+                          stroke="#eceef4"/>
+
+                    <line x1="0" y1="205"
+                          x2="800" y2="205"
+                          stroke="#eceef4"/>
+
+                    <!-- area -->
+                    <path
+                        d="M0 180
+                           C70 170,80 145,120 155
+                           S180 125,230 140
+                           S300 105,350 120
+                           S430 100,470 105
+                           S550 75,590 92
+                           S660 65,700 73
+                           S760 40,800 48
+                           L800 230 L0 230 Z"
+                        fill="rgba(91,92,226,.08)"
+                    />
+
+                    <!-- line -->
+                    <path
+                        d="M0 180
+                           C70 170,80 145,120 155
+                           S180 125,230 140
+                           S300 105,350 120
+                           S430 100,470 105
+                           S550 75,590 92
+                           S660 65,700 73
+                           S760 40,800 48"
+                        fill="none"
+                        stroke="#5b5ce2"
+                        stroke-width="4"
+                        stroke-linecap="round"
+                    />
+
+                    <circle cx="800" cy="48"
+                            r="6"
+                            fill="#5b5ce2"/>
+
+                </svg>
+
+            </div>
+
+            <div class="chart-labels">
+                <span>Quiz 1</span>
+                <span>Quiz 2</span>
+                <span>Quiz 3</span>
+                <span>Quiz 4</span>
+                <span>Quiz 5</span>
+                <span>Quiz 6</span>
+                <span>Quiz 7</span>
+                <span>Quiz 8</span>
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-head">
+                <h3>Exam Readiness</h3>
+                <span>Updated today</span>
+            </div>
+
+            <div class="readiness">
+
+                <div class="progress-ring">
+
+                    <div class="progress-value">
+                        <strong>79%</strong>
+                        <span>READY</span>
+                    </div>
+
+                </div>
+
+                <div class="readiness-info">
+
+                    <h4>Good progress!</h4>
+
+                    <p>
+                        Your overall performance is improving,
+                        but two prerequisite concepts are still
+                        affecting advanced problem solving.
+                    </p>
+
+                    <div class="mini-progress">
+                        <span style="width:79%"></span>
+                    </div>
+
+                    <p style="font-size:10px;margin-top:6px;">
+                        Target readiness: 85%
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <br>
+
+
+    <!-- GAPS + RECOMMENDATIONS -->
+
+    <div class="grid two-grid">
+
+        <div class="card">
+
+            <div class="card-head">
+
+                <h3>Priority Knowledge Gaps</h3>
+
+                <button
+                    class="secondary-btn"
+                    style="padding:7px 10px;font-size:10px;"
+                    onclick="navigate('gaps')">
+                    View all
+                </button>
+
+            </div>
+
+            <div class="gap-list">
+
+                <div class="gap-item">
+
+                    <div class="gap-top">
+                        <span class="gap-name">
+                            Conditional Probability
+                        </span>
+
+                        <span class="badge badge-red">
+                            High
+                        </span>
+                    </div>
+
+                    <div class="gap-score">
+                        Mastery: 54%
+                    </div>
+
+                    <div class="mini-progress">
+                        <span style="width:54%;background:#ef4444"></span>
+                    </div>
+
+                </div>
+
+
+                <div class="gap-item">
+
+                    <div class="gap-top">
+                        <span class="gap-name">
+                            Probability Basics
+                        </span>
+
+                        <span class="badge badge-orange">
+                            Medium
+                        </span>
+                    </div>
+
+                    <div class="gap-score">
+                        Mastery: 62%
+                    </div>
+
+                    <div class="mini-progress">
+                        <span style="width:62%;background:#f59e0b"></span>
+                    </div>
+
+                </div>
+
+
+                <div class="gap-item">
+
+                    <div class="gap-top">
+                        <span class="gap-name">
+                            Data Interpretation
+                        </span>
+
+                        <span class="badge badge-orange">
+                            Medium
+                        </span>
+                    </div>
+
+                    <div class="gap-score">
+                        Mastery: 68%
+                    </div>
+
+                    <div class="mini-progress">
+                        <span style="width:68%;background:#f59e0b"></span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-head">
+                <h3>Recommended Next Steps</h3>
+                <span>AI generated</span>
+            </div>
+
+            <div class="recommendation">
+
+                <div class="rec-number">1</div>
+
+                <div class="rec-content">
+
+                    <h4>Review Probability Foundations</h4>
+
+                    <p>
+                        Strengthen the prerequisite concept
+                        before attempting conditional problems.
+                    </p>
+
+                </div>
+
+                <div class="rec-time">
+                    20 min
+                </div>
+
+            </div>
+
+
+            <div class="recommendation">
+
+                <div class="rec-number">2</div>
+
+                <div class="rec-content">
+
+                    <h4>Practice Conditional Probability</h4>
+
+                    <p>
+                        Solve 10 targeted questions with
+                        immediate feedback.
+                    </p>
+
+                </div>
+
+                <div class="rec-time">
+                    25 min
+                </div>
+
+            </div>
+
+
+            <div class="recommendation">
+
+                <div class="rec-number">3</div>
+
+                <div class="rec-content">
+
+                    <h4>Take Validation Quiz</h4>
+
+                    <p>
+                        Check whether the identified gap
+                        actually improves after practice.
+                    </p>
+
+                </div>
+
+                <div class="rec-time">
+                    15 min
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <br>
+
+
+    <!-- CAUSAL INSIGHT -->
+
+    <div class="card causal-box">
+
+        <div class="card-head">
+            <h3>✦ Latest Causal Insight</h3>
+            <span>Analysis completed today</span>
+        </div>
+
+        <div class="causal-chain">
+
+            <div class="node">
+                Probability Basics
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="node">
+                Conditional Probability
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="node">
+                Advanced Questions
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="node">
+                Lower Accuracy
+            </div>
+
+        </div>
+
+        <div class="insight">
+
+            <strong>Possible root cause:</strong>
+            Your performance suggests that the difficulty in
+            Conditional Probability may be partially explained
+            by an incomplete understanding of foundational
+            probability concepts. The system therefore recommends
+            strengthening the prerequisite first instead of
+            simply assigning more advanced questions.
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     QUIZ CENTER
+===================================================== -->
+
+<section class="page" id="quiz">
+
+    <div class="page-heading">
+
+        <div>
+            <h1>Quiz Center</h1>
+            <p>Practice concepts and validate your learning.</p>
+        </div>
+
+        <button class="primary-btn"
+                onclick="openQuiz('Probability Basics')">
+            Start Quick Quiz
+        </button>
+
+    </div>
+
+
+    <div class="grid three-grid">
+
+        <div class="card quiz-card searchable">
+
+            <div class="quiz-icon">∑</div>
+
+            <h3>Probability Basics</h3>
+
+            <p>
+                Test your understanding of events,
+                outcomes and probability rules.
+            </p>
+
+            <div class="quiz-meta">
+                <span>10 Questions</span>
+                <span>15 min</span>
+            </div>
+
+            <button class="primary-btn"
+                    onclick="openQuiz('Probability Basics')">
+                Start Quiz
+            </button>
+
+        </div>
+
+
+        <div class="card quiz-card searchable">
+
+            <div class="quiz-icon">◈</div>
+
+            <h3>Conditional Probability</h3>
+
+            <p>
+                Targeted practice based on your
+                current knowledge gap.
+            </p>
+
+            <div class="quiz-meta">
+                <span>10 Questions</span>
+                <span>20 min</span>
+            </div>
+
+            <button class="primary-btn"
+                    onclick="openQuiz('Conditional Probability')">
+                Start Quiz
+            </button>
+
+        </div>
+
+
+        <div class="card quiz-card searchable">
+
+            <div class="quiz-icon">▥</div>
+
+            <h3>Statistics</h3>
+
+            <p>
+                Practice mean, median, variance
+                and interpretation questions.
+            </p>
+
+            <div class="quiz-meta">
+                <span>12 Questions</span>
+                <span>20 min</span>
+            </div>
+
+            <button class="primary-btn"
+                    onclick="openQuiz('Statistics')">
+                Start Quiz
+            </button>
+
+        </div>
+
+
+        <div class="card quiz-card searchable">
+
+            <div class="quiz-icon">◫</div>
+
+            <h3>Data Interpretation</h3>
+
+            <p>
+                Analyze charts, tables and
+                real-world data scenarios.
+            </p>
+
+            <div class="quiz-meta">
+                <span>8 Questions</span>
+                <span>15 min</span>
+            </div>
+
+            <button class="primary-btn"
+                    onclick="openQuiz('Data Interpretation')">
+                Start Quiz
+            </button>
+
+        </div>
+
+
+        <div class="card quiz-card searchable">
+
+            <div class="quiz-icon">⌁</div>
+
+            <h3>Mixed Practice</h3>
+
+            <p>
+                A mixed quiz generated from
+                your current knowledge gaps.
+            </p>
+
+            <div class="quiz-meta">
+                <span>15 Questions</span>
+                <span>25 min</span>
+            </div>
+
+            <button class="primary-btn"
+                    onclick="openQuiz('Mixed Practice')">
+                Start Quiz
+            </button>
+
+        </div>
+
+
+        <div class="card quiz-card searchable">
+
+            <div class="quiz-icon">✓</div>
+
+            <h3>Validation Quiz</h3>
+
+            <p>
+                Check whether your recent study
+                session improved the target concept.
+            </p>
+
+            <div class="quiz-meta">
+                <span>5 Questions</span>
+                <span>10 min</span>
+            </div>
+
+            <button class="primary-btn"
+                    onclick="openQuiz('Validation Quiz')">
+                Start Quiz
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     KNOWLEDGE GAPS
+===================================================== -->
+
+<section class="page" id="gaps">
+
+    <div class="page-heading">
+
+        <div>
+            <h1>Knowledge Gaps</h1>
+            <p>
+                Evidence-based view of concepts that need attention.
+            </p>
+        </div>
+
+        <button class="primary-btn"
+                onclick="runAnalysis()">
+            Refresh Analysis
+        </button>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Concept</th>
+                        <th>Mastery</th>
+                        <th>Evidence</th>
+                        <th>Possible Root Cause</th>
+                        <th>Priority</th>
+                        <th>Action</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td><strong>Conditional Probability</strong></td>
+                        <td>54%</td>
+                        <td>4 weak attempts</td>
+                        <td>Prerequisite gap</td>
+                        <td>
+                            <span class="badge badge-red">High</span>
+                        </td>
+                        <td>
+                            <button class="secondary-btn"
+                                    onclick="openQuiz('Conditional Probability')">
+                                Practice
+                            </button>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td><strong>Probability Basics</strong></td>
+                        <td>62%</td>
+                        <td>3 inconsistent attempts</td>
+                        <td>Concept confusion</td>
+                        <td>
+                            <span class="badge badge-orange">
+                                Medium
+                            </span>
+                        </td>
+                        <td>
+                            <button class="secondary-btn"
+                                    onclick="openQuiz('Probability Basics')">
+                                Practice
+                            </button>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td><strong>Data Interpretation</strong></td>
+                        <td>68%</td>
+                        <td>2 slow attempts</td>
+                        <td>Processing difficulty</td>
+                        <td>
+                            <span class="badge badge-orange">
+                                Medium
+                            </span>
+                        </td>
+                        <td>
+                            <button class="secondary-btn"
+                                    onclick="openQuiz('Data Interpretation')">
+                                Practice
+                            </button>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td><strong>Statistics</strong></td>
+                        <td>88%</td>
+                        <td>Consistent success</td>
+                        <td>No significant gap</td>
+                        <td>
+                            <span class="badge badge-green">
+                                Low
+                            </span>
+                        </td>
+                        <td>
+                            <button class="secondary-btn"
+                                    onclick="showToast('Statistics marked as maintained')">
+                                Maintain
+                            </button>
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     CAUSAL ANALYSIS
+===================================================== -->
+
+<section class="page" id="causal">
+
+    <div class="page-heading">
+
+        <div>
+            <h1>Causal Analysis</h1>
+            <p>
+                Explore why a performance gap may be occurring.
+            </p>
+        </div>
+
+        <button class="primary-btn"
+                onclick="runAnalysis()">
+            Run Analysis
+        </button>
+
+    </div>
+
+
+    <div class="analysis-layout">
+
+        <div class="card">
+
+            <div class="card-head">
+                <h3>Knowledge Dependency Map</h3>
+                <span>Sample analysis</span>
+            </div>
+
+            <div class="cause-map">
+
+                <div class="cause-node">
+                    Probability Fundamentals
+                    <br>
+                    <small style="color:var(--muted)">
+                        62% mastery
+                    </small>
+                </div>
+
+                <div class="cause-arrow">↓</div>
+
+                <div class="cause-node main">
+                    Conditional Probability
+                    <br>
+                    <small>
+                        54% mastery
+                    </small>
+                </div>
+
+                <div class="cause-arrow">↓</div>
+
+                <div class="cause-node">
+                    Advanced Probability Problems
+                    <br>
+                    <small style="color:var(--muted)">
+                        47% accuracy
+                    </small>
+                </div>
+
+                <div class="cause-arrow">↓</div>
+
+                <div class="cause-node">
+                    Overall Quiz Performance
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-head">
+                <h3>Why This Gap Was Flagged</h3>
+                <span>Evidence</span>
+            </div>
+
+            <div class="gap-list">
+
+                <div class="gap-item">
+                    <div class="gap-name">
+                        Repeated error pattern
+                    </div>
+
+                    <div class="gap-score">
+                        Similar mistakes occurred across
+                        multiple quizzes.
+                    </div>
+                </div>
+
+
+                <div class="gap-item">
+                    <div class="gap-name">
+                        Prerequisite relationship
+                    </div>
+
+                    <div class="gap-score">
+                        Weakness in a foundational concept
+                        appears before the target concept.
+                    </div>
+                </div>
+
+
+                <div class="gap-item">
+                    <div class="gap-name">
+                        Improvement opportunity
+                    </div>
+
+                    <div class="gap-score">
+                        Targeted prerequisite practice can
+                        be tested with a validation quiz.
+                    </div>
+                </div>
+
+
+                <div class="gap-item">
+
+                    <div class="gap-name">
+                        Correlation warning
+                    </div>
+
+                    <div class="gap-score">
+                        A low score alone is not treated as
+                        proof of a root cause.
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <br>
+
+
+    <div class="card causal-box">
+
+        <div class="card-head">
+            <h3>How CausaLearn Thinks</h3>
+        </div>
+
+        <div class="causal-chain">
+
+            <div class="node">
+                Past Performance
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="node">
+                Concept Relationships
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="node">
+                Error Patterns
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="node">
+                Candidate Cause
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="node">
+                Targeted Intervention
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="node">
+                Validation
+            </div>
+
+        </div>
+
+        <div class="insight">
+
+            <strong>Important:</strong>
+            The frontend represents the intended causal-reasoning
+            workflow. In the actual SIH implementation, the
+            backend/ML layer can use student response history,
+            prerequisite graphs, question attributes and
+            intervention outcomes to estimate causal relationships.
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     RECOMMENDATIONS
+===================================================== -->
+
+<section class="page" id="recommendations">
+
+    <div class="page-heading">
+
+        <div>
+            <h1>Personalized Recommendations</h1>
+            <p>
+                Actions generated from your current learning state.
+            </p>
+        </div>
+
+    </div>
+
+
+    <div class="grid three-grid">
+
+        <div class="card">
+
+            <span class="badge badge-red">HIGH PRIORITY</span>
+
+            <h3 style="margin-top:15px;">
+                Rebuild Probability Basics
+            </h3>
+
+            <p style="font-size:12px;color:var(--muted);line-height:1.6;margin-top:8px;">
+                Review event relationships, sample spaces
+                and basic probability rules.
+            </p>
+
+            <div class="mini-progress">
+                <span style="width:35%"></span>
+            </div>
+
+            <p style="font-size:10px;color:var(--muted);margin-top:6px;">
+                Estimated time: 20 minutes
+            </p>
+
+            <button class="primary-btn"
+                    style="margin-top:15px;"
+                    onclick="showToast('Study session started')">
+                Start Session
+            </button>
+
+        </div>
+
+
+        <div class="card">
+
+            <span class="badge badge-red">HIGH PRIORITY</span>
+
+            <h3 style="margin-top:15px;">
+                Practice Conditional Probability
+            </h3>
+
+            <p style="font-size:12px;color:var(--muted);line-height:1.6;margin-top:8px;">
+                Complete targeted questions after reviewing
+                the prerequisite concept.
+            </p>
+
+            <div class="mini-progress">
+                <span style="width:54%;background:#ef4444"></span>
+            </div>
+
+            <p style="font-size:10px;color:var(--muted);margin-top:6px;">
+                Estimated time: 25 minutes
+            </p>
+
+            <button class="primary-btn"
+                    style="margin-top:15px;"
+                    onclick="openQuiz('Conditional Probability')">
+                Practice Now
+            </button>
+
+        </div>
+
+
+        <div class="card">
+
+            <span class="badge badge-orange">
+                VALIDATION
+            </span>
+
+            <h3 style="margin-top:15px;">
+                Take Follow-up Quiz
+            </h3>
+
+            <p style="font-size:12px;color:var(--muted);line-height:1.6;margin-top:8px;">
+                Check whether your intervention improved
+                the target concept.
+            </p>
+
+            <div class="mini-progress">
+                <span style="width:75%;background:#f59e0b"></span>
+            </div>
+
+            <p style="font-size:10px;color:var(--muted);margin-top:6px;">
+                Estimated time: 15 minutes
+            </p>
+
+            <button class="primary-btn"
+                    style="margin-top:15px;"
+                    onclick="openQuiz('Validation Quiz')">
+                Validate Learning
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <br>
+
+
+    <div class="card">
+
+        <div class="card-head">
+            <h3>Recommendation Logic</h3>
+        </div>
+
+        <div class="causal-chain">
+
+            <div class="node">
+                Knowledge Gap
+            </div>
+
+            <div class="arrow">+</div>
+
+            <div class="node">
+                Root Cause
+            </div>
+
+            <div class="arrow">+</div>
+
+            <div class="node">
+                Student History
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="node">
+                Personalized Action
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     STUDY PLAN
+===================================================== -->
+
+<section class="page" id="study">
+
+    <div class="page-heading">
+
+        <div>
+            <h1>Study Plan</h1>
+            <p>Your adaptive learning plan for the upcoming exam.</p>
+        </div>
+
+        <button class="primary-btn"
+                onclick="showToast('Study plan updated')">
+            Update Plan
+        </button>
+
+    </div>
+
+
+    <div class="grid two-grid">
+
+        <div class="card">
+
+            <div class="card-head">
+                <h3>Today's Learning Path</h3>
+                <span>75 min</span>
+            </div>
+
+            <div class="timeline">
+
+                <div class="timeline-item">
+
+                    <div class="timeline-dot"></div>
+
+                    <h4>Review Probability Foundations</h4>
+
+                    <p>
+                        20 minutes · Concept revision
+                    </p>
+
+                </div>
+
+
+                <div class="timeline-item">
+
+                    <div class="timeline-dot"></div>
+
+                    <h4>Conditional Probability Practice</h4>
+
+                    <p>
+                        25 minutes · Targeted questions
+                    </p>
+
+                </div>
+
+
+                <div class="timeline-item">
+
+                    <div class="timeline-dot"></div>
+
+                    <h4>Take Validation Quiz</h4>
+
+                    <p>
+                        15 minutes · Measure improvement
+                    </p>
+
+                </div>
+
+
+                <div class="timeline-item">
+
+                    <div class="timeline-dot"></div>
+
+                    <h4>Review Mistakes</h4>
+
+                    <p>
+                        15 minutes · Reflection
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-head">
+                <h3>Today's Checklist</h3>
+                <span id="checkProgress">0/4</span>
+            </div>
+
+            <div class="check-list">
+
+                <label class="check-item">
+                    <input type="checkbox" class="study-check">
+                    <span>Review probability basics</span>
+                </label>
+
+                <label class="check-item">
+                    <input type="checkbox" class="study-check">
+                    <span>Solve 10 practice questions</span>
+                </label>
+
+                <label class="check-item">
+                    <input type="checkbox" class="study-check">
+                    <span>Complete validation quiz</span>
+                </label>
+
+                <label class="check-item">
+                    <input type="checkbox" class="study-check">
+                    <span>Review incorrect answers</span>
+                </label>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     PROFILE
+===================================================== -->
+
+<section class="page" id="profile">
+
+    <div class="page-heading">
+
+        <div>
+            <h1>Profile & Settings</h1>
+            <p>Manage your learning preferences.</p>
+        </div>
+
+    </div>
+
+
+    <div class="grid two-grid">
+
+        <div class="card">
+
+            <div class="profile-header">
+
+                <div class="big-avatar">
+                    P
+                </div>
+
+                <div>
+                    <h2>Student Profile</h2>
+
+                    <p>
+                        CausaLearn Demo Student
+                    </p>
+
+                    <p>
+                        Engineering · Semester 5
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div style="margin-top:25px;">
+
+                <div class="setting">
+
+                    <div>
+                        <h4>Learning Goal</h4>
+                        <p>Improve exam readiness</p>
+                    </div>
+
+                    <button class="secondary-btn"
+                            onclick="showToast('Goal editor opened')">
+                        Edit
+                    </button>
+
+                </div>
+
+
+                <div class="setting">
+
+                    <div>
+                        <h4>Daily Study Target</h4>
+                        <p>60 minutes per day</p>
+                    </div>
+
+                    <button class="secondary-btn"
+                            onclick="showToast('Study target editor opened')">
+                        Edit
+                    </button>
+
+                </div>
+
+
+                <div class="setting">
+
+                    <div>
+                        <h4>Upcoming Exam</h4>
+                        <p>Demo examination</p>
+                    </div>
+
+                    <button class="secondary-btn"
+                            onclick="showToast('Exam settings opened')">
+                        Edit
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-head">
+                <h3>Preferences</h3>
+            </div>
+
+
+            <div class="setting">
+
+                <div>
+                    <h4>Learning Reminders</h4>
+                    <p>Receive study reminders</p>
+                </div>
+
+                <button class="toggle on"
+                        onclick="toggleSetting(this)">
+                </button>
+
+            </div>
+
+
+            <div class="setting">
+
+                <div>
+                    <h4>AI Recommendations</h4>
+                    <p>Show personalized suggestions</p>
+                </div>
+
+                <button class="toggle on"
+                        onclick="toggleSetting(this)">
+                </button>
+
+            </div>
+
+
+            <div class="setting">
+
+                <div>
+                    <h4>Performance Insights</h4>
+                    <p>Show detailed analytics</p>
+                </div>
+
+                <button class="toggle on"
+                        onclick="toggleSetting(this)">
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<!-- =====================================================
+     QUIZ MODAL
+===================================================== -->
+
+<div class="modal-bg" id="quizModal">
+
+    <div class="modal">
+
+        <div class="modal-top">
+
+            <div>
+                <strong id="quizTitle">
+                    Probability Quiz
+                </strong>
+
+                <div class="question-number"
+                     id="questionNumber">
+                    Question 1 of 3
+                </div>
+            </div>
+
+            <button class="close-btn"
+                    onclick="closeQuiz()">
+                ✕
+            </button>
+
+        </div>
+
+
+        <div id="quizContent">
+
+            <div class="question" id="questionText">
+                What is the probability of getting a
+                head when a fair coin is tossed once?
+            </div>
+
+            <div class="options" id="optionsContainer">
+
+            </div>
+
+        </div>
+
+
+        <div class="quiz-footer">
+
+            <span style="font-size:11px;color:var(--muted);"
+                  id="quizScore">
+                Score: 0
+            </span>
+
+            <button class="primary-btn"
+                    id="nextQuestionBtn"
+                    onclick="nextQuestion()">
+                Next Question
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- TOAST -->
+
+<div class="toast" id="toast">
+    Action completed
+</div>
+
+
+<script>
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+const navTabs = document.querySelectorAll(".nav-tab");
+const pages = document.querySelectorAll(".page");
+
+navTabs.forEach(tab => {
+
+    tab.addEventListener("click", () => {
+
+        const page = tab.dataset.page;
+
+        navigate(page);
+
+    });
+
+});
+
+
+function navigate(page){
+
+    pages.forEach(section => {
+        section.classList.remove("active");
+    });
+
+    navTabs.forEach(tab => {
+        tab.classList.remove("active");
+    });
+
+    const selectedPage = document.getElementById(page);
+
+    if(selectedPage){
+        selectedPage.classList.add("active");
+    }
+
+    const selectedTab =
+        document.querySelector(`[data-page="${page}"]`);
+
+    if(selectedTab){
+        selectedTab.classList.add("active");
+    }
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+let toastTimer;
+
+function showToast(message){
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent = message;
+
+    toast.classList.add("show");
+
+    clearTimeout(toastTimer);
+
+    toastTimer = setTimeout(() => {
+
+        toast.classList.remove("show");
+
+    },2500);
+
+}
+
+
+/* =====================================================
+   CAUSAL ANALYSIS
+===================================================== */
+
+function runAnalysis(){
+
+    showToast("Causal analysis completed successfully ✦");
+
+    setTimeout(() => {
+
+        showToast(
+            "5 knowledge gaps analyzed • 2 high priority"
+        );
+
+    },1200);
+
+}
+
+
+/* =====================================================
+   DROPDOWNS
+===================================================== */
+
+const notificationBtn =
+    document.getElementById("notificationBtn");
+
+const notificationDropdown =
+    document.getElementById("notificationDropdown");
+
+const profileBtn =
+    document.getElementById("profileBtn");
+
+const profileDropdown =
+    document.getElementById("profileDropdown");
+
+
+notificationBtn.addEventListener("click",e => {
+
+    e.stopPropagation();
+
+    profileDropdown.classList.remove("show");
+
+    notificationDropdown.classList.toggle("show");
+
+});
+
+
+profileBtn.addEventListener("click",e => {
+
+    e.stopPropagation();
+
+    notificationDropdown.classList.remove("show");
+
+    profileDropdown.classList.toggle("show");
+
+});
+
+
+document.addEventListener("click",() => {
+
+    closeDropdowns();
+
+});
+
+
+function closeDropdowns(){
+
+    notificationDropdown.classList.remove("show");
+
+    profileDropdown.classList.remove("show");
+
+}
+
+
+/* =====================================================
+   DARK MODE
+===================================================== */
+
+const themeBtn =
+    document.getElementById("themeBtn");
+
+themeBtn.addEventListener("click",() => {
+
+    document.body.classList.toggle("dark");
+
+    const isDark =
+        document.body.classList.contains("dark");
+
+    localStorage.setItem("causalearn-dark",isDark);
+
+    showToast(
+        isDark
+        ? "Dark mode enabled"
+        : "Light mode enabled"
+    );
+
+});
+
+
+if(localStorage.getItem("causalearn-dark") === "true"){
+
+    document.body.classList.add("dark");
+
+}
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+const searchInput =
+    document.getElementById("searchInput");
+
+searchInput.addEventListener("input",function(){
+
+    const value =
+        this.value.toLowerCase().trim();
+
+    const searchable =
+        document.querySelectorAll(".searchable");
+
+    searchable.forEach(item => {
+
+        const text =
+            item.innerText.toLowerCase();
+
+        if(!value || text.includes(value)){
+
+            item.style.display = "";
+
+        }else{
+
+            item.style.display = "none";
+
+        }
+
+    });
+
+});
+
+
+/* =====================================================
+   TOGGLE
+===================================================== */
+
+function toggleSetting(element){
+
+    element.classList.toggle("on");
+
+    const enabled =
+        element.classList.contains("on");
+
+    showToast(
+        enabled
+        ? "Setting enabled"
+        : "Setting disabled"
+    );
+
+}
+
+
+/* =====================================================
+   QUIZ SYSTEM
+===================================================== */
+
+const quizQuestions = [
+
+    {
+        question:
+        "What is the probability of getting a head when a fair coin is tossed once?",
+
+        options:[
+            "0",
+            "1/2",
+            "1",
+            "2"
+        ],
+
+        answer:1
+    },
+
+    {
+        question:
+        "If P(A) = 0.4 and P(B) = 0.5 for independent events, what is P(A ∩ B)?",
+
+        options:[
+            "0.9",
+            "0.2",
+            "0.45",
+            "0.1"
+        ],
+
+        answer:1
+    },
+
+    {
+        question:
+        "Which concept should usually be checked before advanced conditional probability?",
+
+        options:[
+            "Probability fundamentals",
+            "Calculus",
+            "Geometry",
+            "Programming"
+        ],
+
+        answer:0
+    }
+
+];
+
+
+let currentQuestion = 0;
+let quizScore = 0;
+let selectedAnswer = null;
+
+
+function openQuiz(title){
+
+    currentQuestion = 0;
+
+    quizScore = 0;
+
+    selectedAnswer = null;
+
+    document.getElementById("quizTitle")
+        .textContent = title;
+
+    document.getElementById("quizModal")
+        .classList.add("show");
+
+    loadQuestion();
+
+}
+
+
+function closeQuiz(){
+
+    document.getElementById("quizModal")
+        .classList.remove("show");
+
+}
+
+
+function loadQuestion(){
+
+    const q =
+        quizQuestions[currentQuestion];
+
+    document.getElementById("questionNumber")
+        .textContent =
+        `Question ${currentQuestion+1} of ${quizQuestions.length}`;
+
+    document.getElementById("questionText")
+        .textContent = q.question;
+
+    document.getElementById("quizScore")
+        .textContent =
+        `Score: ${quizScore}`;
+
+    const container =
+        document.getElementById("optionsContainer");
+
+    container.innerHTML = "";
+
+    selectedAnswer = null;
+
+    q.options.forEach((option,index) => {
+
+        const button =
+            document.createElement("button");
+
+        button.className = "option";
+
+        button.textContent = option;
+
+        button.onclick = () => {
+
+            document.querySelectorAll(".option")
+                .forEach(item =>
+                    item.classList.remove("selected")
+                );
+
+            button.classList.add("selected");
+
+            selectedAnswer = index;
+
+        };
+
+        container.appendChild(button);
+
+    });
+
+    document.getElementById("nextQuestionBtn")
+        .textContent =
+        currentQuestion === quizQuestions.length-1
+        ? "Finish Quiz"
+        : "Next Question";
+
+}
+
+
+function nextQuestion(){
+
+    if(selectedAnswer === null){
+
+        showToast("Please select an answer");
+
+        return;
+
+    }
+
+    const correct =
+        quizQuestions[currentQuestion].answer;
+
+    if(selectedAnswer === correct){
+
+        quizScore++;
+
+    }
+
+    if(currentQuestion <
+       quizQuestions.length-1){
+
+        currentQuestion++;
+
+        loadQuestion();
+
+    }else{
+
+        finishQuiz();
+
+    }
+
+}
+
+
+function finishQuiz(){
+
+    const percentage =
+        Math.round(
+            (quizScore / quizQuestions.length)*100
+        );
+
+    document.getElementById("questionText")
+        .innerHTML =
+        `
+        <div style="text-align:center;padding:25px 0;">
+            <div style="font-size:45px;">🎉</div>
+
+            <h2 style="margin:12px 0;">
+                Quiz Completed
+            </h2>
+
+            <p style="color:var(--muted);font-size:13px;">
+                Your score is
+            </p>
+
+            <div style="
+                font-size:40px;
+                font-weight:800;
+                color:var(--primary);
+                margin:10px;
+            ">
+                ${percentage}%
+            </div>
+
+            <p style="color:var(--muted);font-size:12px;">
+                ${quizScore} out of ${quizQuestions.length}
+                answers were correct.
+            </p>
+        </div>
+        `;
+
+    document.getElementById("optionsContainer")
+        .innerHTML = "";
+
+    document.getElementById("nextQuestionBtn")
+        .textContent = "Close";
+
+    document.getElementById("nextQuestionBtn")
+        .onclick = () => {
+
+            closeQuiz();
+
+            showToast(
+                "Quiz result added to your learning history"
+            );
+
+        };
+
+}
+
+
+/* =====================================================
+   STUDY CHECKLIST
+===================================================== */
+
+const studyChecks =
+    document.querySelectorAll(".study-check");
+
+studyChecks.forEach(check => {
+
+    check.addEventListener("change",updateCheckProgress);
+
+});
+
+
+function updateCheckProgress(){
+
+    const total =
+        studyChecks.length;
+
+    let completed = 0;
+
+    studyChecks.forEach(check => {
+
+        if(check.checked){
+            completed++;
+        }
+
+    });
+
+    document.getElementById("checkProgress")
+        .textContent =
+        `${completed}/${total}`;
+
+    if(completed === total){
+
+        showToast(
+            "🎉 Today's study plan completed!"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   KEYBOARD SHORTCUT
+===================================================== */
+
+document.addEventListener("keydown",event => {
+
+    if(event.key === "Escape"){
+
+        closeQuiz();
+
+        closeDropdowns();
+
+    }
+
+});
+
+
+/* =====================================================
+   INITIALIZATION
+===================================================== */
+
+console.log(
+    "CausaLearn frontend initialized successfully."
+);
+
+</script>
+
+</body>
+</html>
